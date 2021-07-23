@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private float speed = 10.0f;
+    private float speed = 100.0f;
     private float topBound = 11;
     private float bottomBound = -2;
 
@@ -49,4 +49,24 @@ public class PlayerController : MonoBehaviour
             transform.position = new Vector3(transform.position.x, transform.position.y, bottomBound);
         }
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Collision detected");
+        }
+        if(collision.gameObject.CompareTag("Barrel"))
+        {
+            Destroy(collision.gameObject);
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+      if(other.gameObject.CompareTag("Powerup"))
+      {
+            Destroy(other.gameObject);
+      }
+    }
+
+       
 }
