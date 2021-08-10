@@ -4,27 +4,33 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private float speed = 100.0f;
+    private float speed = 60.0f;
     private float topBound = 11;
     private float bottomBound = -2;
 
     private Rigidbody playerRb;
+
+    public bool hasPowerup;
+    public GameObject powerupIndicator;
+    public int powerUpDuration = 5;
 
 
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
-        
+
     }
 
-    // Update is called once per frame
+    // Player Movement Restrain
     void Update()
     {
         MovePlayer();
         ConstrainPlayerPosition();
-             
-    }  
+
+        //Powerup location
+        powerupIndicator.transform.position = transform.position + new Vector3(0, 0, 0);
+    }
 
     //Moves player with arrow keys
     void MovePlayer()
@@ -36,6 +42,7 @@ public class PlayerController : MonoBehaviour
         playerRb.AddForce(Vector3.right * speed * horizontalInput);
 
     }
+
 
     // Boundaries for restricted movement
     void ConstrainPlayerPosition()
@@ -51,22 +58,34 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("Collision detected");
+
         }
-        if(collision.gameObject.CompareTag("Barrel"))
+        if (collision.gameObject.CompareTag("Barrel"))
         {
             Destroy(collision.gameObject);
         }
     }
+    //Powerup indicator active and display
     private void OnTriggerEnter(Collider other)
     {
-      if(other.gameObject.CompareTag("Powerup"))
-      {
+        if (other.gameObject.CompareTag("Powerup"))
+        {
             Destroy(other.gameObject);
-      }
+            hasPowerup = true;
+            powerupIndicator.SetActive(true);
+            StartCoroutine(PowerupCooldown());
+        }
     }
 
-       
+    // Coroutine to count down powerup duration
+    IEnumerator PowerupCooldown()
+    {
+        yield return new WaitForSeconds(5);
+        hasPowerup = false;
+        powerupIndicator.gameObject.SetActive(false);
+    }
 }
+    
+   

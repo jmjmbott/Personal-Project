@@ -6,12 +6,16 @@ public class SpawnManager : MonoBehaviour
 {
     public GameObject[] enemies;
     public GameObject powerup;
+    private Animator enemyAnim;
+    private Rigidbody enemyRb;
+
+    
 
     private float zEnemySpawn = 24.0f;
     private float xSpawnRange = 16.0f;
     private float zPowerupRange = 3.0f;
     private float zPowerupRangeBottom = -1.5f;
-    private float ySpawn = .75f;
+    private float ySpawn = .20f;
 
     private float powerupSpawnTime = 8.0f;
     private float enemySpawnTime = 1.0f;
@@ -20,8 +24,13 @@ public class SpawnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        enemyRb = GetComponent<Rigidbody>();
+        enemyAnim = GetComponent<Animator>();
         InvokeRepeating("SpawnRandomEnemy", startDelay, enemySpawnTime);
         InvokeRepeating("SpawnPowerup", startDelay, powerupSpawnTime);
+
+        
+
         
     }
 

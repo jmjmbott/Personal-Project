@@ -10,10 +10,17 @@ public class MoveDown : MonoBehaviour
     private float zDestroy = -4.0f;
     private Rigidbody objectRb;
 
+    private Animator enemyAnim;
+    private Rigidbody enemyRb;
+
+
     // Start is called before the first frame update
     void Start()
     {
         objectRb = GetComponent<Rigidbody>();
+
+        enemyRb = GetComponent<Rigidbody>();
+        enemyAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
